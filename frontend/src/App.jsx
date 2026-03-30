@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PaymentButton from "./PaymentButton";
 import "./App.css";
 
 const App = () => {
@@ -15,19 +16,6 @@ const App = () => {
         console.log(error);
       });
   }, []);
-
-  const handleBuyNow = async () => {
-    if (!product) return;
-
-    const amountInSmallestUnit =
-      product.price.currency === "INR"
-        ? product.price.amount * 100
-        : product.price.amount;
-
-    console.log("Razorpay amount:", amountInSmallestUnit);
-
-    // later you will send this amount to backend to create razorpay order
-  };
 
   if (!product) {
     return <h2 className="loading">Loading...</h2>;
@@ -50,20 +38,10 @@ const App = () => {
           <p className="description">{product.description}</p>
 
           <div className="price-row">
-            <h2>
-              ₹{product.price.amount}
-            </h2>
-            {/* <p className="sub-text">
-              Razorpay Amount: {product.price.currency === "INR"
-                ? product.price.amount * 100
-                : product.price.amount}{" "}
-              paise
-            </p> */}
+            <h2>₹{product.price.amount}</h2>
           </div>
 
-          <button className="buy-btn" onClick={handleBuyNow}>
-            Buy Now
-          </button>
+          <PaymentButton product={product} />
         </div>
       </div>
     </div>
